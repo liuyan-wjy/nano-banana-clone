@@ -12,32 +12,32 @@ export function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
-          <Link
+          <a
             href="#features"
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
             Features
-          </Link>
-          <Link
+          </a>
+          <a
             href="#showcase"
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
             Showcase
-          </Link>
-          <Link
+          </a>
+          <a
             href="#reviews"
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
             Reviews
-          </Link>
-          <Link
+          </a>
+          <a
             href="#faq"
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
             FAQ
-          </Link>
+          </a>
           <Button variant="default" size="sm" asChild>
-            <Link href="#generator">Try Now</Link>
+            <a href="#generator">Try Now</a>
           </Button>
           <AuthButton />
         </nav>

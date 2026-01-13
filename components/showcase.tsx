@@ -63,9 +63,11 @@ export function Showcase() {
 
         <div className="text-center mt-12">
           <p className="text-lg mb-4">Experience the power of Nano Banana yourself</p>
-          <Button size="lg" className="gap-2">
-            Try Nano Banana Generator
-            <span className="text-xl">🍌</span>
+          <Button size="lg" className="gap-2" asChild>
+            <a href="#generator">
+              Try Nano Banana Generator
+              <span className="text-xl">🍌</span>
+            </a>
           </Button>
         </div>
       </div>
