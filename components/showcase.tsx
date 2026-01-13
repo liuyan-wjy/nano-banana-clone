@@ -6,21 +6,25 @@ const showcaseItems = [
     title: "Ultra-Fast Mountain Generation",
     description: "Created in 0.8 seconds with Nano Banana's optimized neural engine",
     tag: "Nano Banana Speed",
+    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop",
   },
   {
     title: "Instant Garden Creation",
     description: "Complex scene rendered in milliseconds using Nano Banana technology",
     tag: "Nano Banana Speed",
+    image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=600&h=400&fit=crop",
   },
   {
     title: "Real-time Beach Synthesis",
     description: "Nano Banana delivers photorealistic results at lightning speed",
     tag: "Nano Banana Speed",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=400&fit=crop",
   },
   {
     title: "Rapid Aurora Generation",
     description: "Advanced effects processed instantly with Nano Banana AI",
     tag: "Nano Banana Speed",
+    image: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600&h=400&fit=crop",
   },
 ]
 
@@ -40,9 +44,10 @@ export function Showcase() {
               <div className="aspect-video bg-gradient-to-br from-primary/20 to-accent relative overflow-hidden">
                 <div className="absolute inset-0 flex items-center justify-center text-8xl opacity-20">🍌</div>
                 <img
-                  src={`/.jpg?key=zd92n&height=400&width=600&query=${encodeURIComponent(item.title)}`}
+                  src={item.image}
                   alt={item.title}
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
