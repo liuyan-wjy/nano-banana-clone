@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { AuthButton } from "@/components/auth/auth-button"
 
 export function Header() {
   return (
@@ -35,9 +36,10 @@ export function Header() {
           >
             FAQ
           </Link>
-          <Button variant="default" size="sm">
-            Try Now
+          <Button variant="default" size="sm" asChild>
+            <Link href="#generator">Try Now</Link>
           </Button>
+          <AuthButton />
         </nav>
       </div>
     </header>
