@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 
@@ -23,13 +24,17 @@ export function Hero() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="text-lg gap-2">
-              Start Editing
-              <span className="text-xl">🍌</span>
+            <Button size="lg" className="text-lg gap-2" asChild>
+              <Link href="#generator">
+                Start Editing
+                <span className="text-xl">🍌</span>
+              </Link>
             </Button>
-            <Button size="lg" variant="outline" className="text-lg gap-2 bg-transparent">
-              View Examples
-              <ArrowRight className="w-5 h-5" />
+            <Button size="lg" variant="outline" className="text-lg gap-2 bg-transparent" asChild>
+              <Link href="#showcase">
+                View Examples
+                <ArrowRight className="w-5 h-5" />
+              </Link>
             </Button>
           </div>
 
