@@ -38,7 +38,7 @@ export function Showcase() {
           <p className="text-muted-foreground mt-2">See what Nano Banana generates in milliseconds</p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6">
           {showcaseItems.map((item, index) => (
             <Card key={index} className="overflow-hidden group hover:shadow-xl transition-all">
               <div className="aspect-video bg-gradient-to-br from-primary/20 to-accent relative overflow-hidden">
