@@ -85,36 +85,12 @@ export default function PricingPage() {
   const [loading, setLoading] = useState<string | null>(null)
   const [billingInterval, setBillingInterval] = useState<"monthly" | "yearly">("monthly")
 
-  const handleSubscribe = async (planId: string, productId: string) => {
+  const handleSubscribe = (planId: string, productId: string) => {
     setLoading(planId)
-
-    try {
-      const response = await fetch("/api/checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          productId,
-          planId,
-          billingInterval,
-        }),
-      })
-
-      const data = await response.json()
-
-      if (data.checkoutUrl) {
-        window.location.href = data.checkoutUrl
-      } else {
-        console.error("Failed to create checkout session:", data.error)
-        alert(data.error || "Failed to create checkout session. Please try again.")
-      }
-    } catch (error) {
-      console.error("Error creating checkout:", error)
-      alert("An error occurred. Please try again.")
-    } finally {
-      setLoading(null)
-    }
+    
+    // Redirect to checkout with product_id as query parameter (Creem SDK format)
+    const checkoutUrl = `/api/checkout?product_id=${encodeURIComponent(productId)}`
+    window.location.href = checkoutUrl
   }
 
   return (
