@@ -88,8 +88,8 @@ export default function PricingPage() {
   const handleSubscribe = (planId: string, productId: string) => {
     setLoading(planId)
     
-    // Redirect to checkout with product_id as query parameter (Creem SDK format)
-    const checkoutUrl = `/api/checkout?product_id=${encodeURIComponent(productId)}`
+    // Redirect to checkout with productId as query parameter (Creem SDK uses camelCase)
+    const checkoutUrl = `/api/checkout?productId=${encodeURIComponent(productId)}`
     window.location.href = checkoutUrl
   }
 
