@@ -36,6 +36,12 @@ export function Header() {
           >
             FAQ
           </a>
+          <Link
+            href="/pricing"
+            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Pricing
+          </Link>
           <Button variant="default" size="sm" asChild>
             <a href="#generator">Try Now</a>
           </Button>
