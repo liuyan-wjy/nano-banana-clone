@@ -1,24 +1,15 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
-import { CheckCircle, Sparkles, ArrowRight } from "lucide-react"
+import { CheckCircle, Sparkles, ArrowRight, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 
-export default function CheckoutSuccessPage() {
+function SuccessContent() {
   const searchParams = useSearchParams()
   const sessionId = searchParams.get("session_id")
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) {
-    return null
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background to-green-500/5 flex items-center justify-center p-4">
@@ -86,8 +77,8 @@ export default function CheckoutSuccessPage() {
               </Link>
             </Button>
             <Button variant="outline" className="flex-1 h-12 text-base" asChild>
-              <Link href="/account">
-                View Account
+              <Link href="/">
+                Back to Home
               </Link>
             </Button>
           </div>
@@ -95,12 +86,35 @@ export default function CheckoutSuccessPage() {
           {/* Support Link */}
           <p className="text-xs text-muted-foreground mt-8">
             Need help?{" "}
-            <Link href="/support" className="text-primary hover:underline">
+            <Link href="/contact" className="text-primary hover:underline">
               Contact Support
             </Link>
           </p>
         </CardContent>
       </Card>
     </div>
+  )
+}
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-background via-background to-green-500/5 flex items-center justify-center p-4">
+      <Card className="max-w-lg w-full">
+        <CardContent className="pt-12 pb-8 px-8 text-center">
+          <div className="flex flex-col items-center gap-4">
+            <Loader2 className="w-12 h-12 animate-spin text-primary" />
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+export default function CheckoutSuccessPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <SuccessContent />
+    </Suspense>
   )
 }
