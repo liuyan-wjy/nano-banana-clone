@@ -360,7 +360,7 @@ export default function PricingPage() {
             <span className="text-2xl">🍌</span>
             <span className="font-semibold">Nano Banana</span>
           </div>
-          <p className="text-sm text-muted-foreground">© 2025 Nano Banana. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">© 2026 Nano Banana. All rights reserved.</p>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <Link href="/terms" className="hover:text-foreground transition-colors">Terms</Link>
             <Link href="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>

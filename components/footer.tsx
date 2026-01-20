@@ -1,3 +1,6 @@
+import Link from "next/link"
+import { Mail } from "lucide-react"
+
 export function Footer() {
   return (
     <footer className="py-12 border-t border-border">
@@ -9,18 +12,27 @@ export function Footer() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
-            <a href="#" className="hover:text-foreground transition-colors">
+            <Link href="/terms" className="hover:text-foreground transition-colors">
               Terms of Service
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
+            </Link>
+            <Link href="/privacy" className="hover:text-foreground transition-colors">
               Privacy Policy
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
+            </Link>
+            <a href="mailto:hex@visiohex.com" className="hover:text-foreground transition-colors flex items-center gap-1">
+              <Mail className="w-4 h-4" />
               Contact
             </a>
           </div>
 
           <p className="text-sm text-muted-foreground">© 2026 Nano Banana. All rights reserved.</p>
+        </div>
+        
+        {/* AI Disclosure */}
+        <div className="mt-8 pt-6 border-t border-border/50 text-center">
+          <p className="text-xs text-muted-foreground">
+            🤖 Nano Banana uses AI technology (Google Gemini) to process and generate images. 
+            Results may vary and AI-generated content should be reviewed before use.
+          </p>
         </div>
       </div>
     </footer>
