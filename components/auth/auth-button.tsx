@@ -43,25 +43,34 @@ export function AuthButton() {
       return
     }
 
+    // Handle OAuth callback from URL hash (for implicit flow)
+    const handleAuthCallback = async () => {
+      // Check if there's auth data in the URL hash
+      if (window.location.hash && window.location.hash.includes('access_token')) {
+        console.log('Found access_token in URL hash, processing...')
+        // Supabase will automatically handle the hash and set the session
+        const { data, error } = await supabase.auth.getSession()
+        if (data?.session) {
+          console.log('Session restored from URL hash:', data.session.user.email)
+          setUser(data.session.user)
+          // Clean up the URL hash
+          window.history.replaceState(null, '', window.location.pathname)
+        }
+        if (error) {
+          console.error('Error processing auth callback:', error)
+        }
+      }
+    }
+    
+    handleAuthCallback()
+
     // Get initial session
     const getUser = async () => {
       try {
-        // Debug: Log all cookies visible to JavaScript
-        console.log('All cookies:', document.cookie)
-        console.log('Cookies with sb-:', document.cookie.split(';').filter(c => c.includes('sb-')))
-        
-        // First try to get session (includes token refresh)
         const { data: { session }, error: sessionError } = await supabase.auth.getSession()
-        console.log('getSession result:', { session: !!session, error: sessionError?.message })
         
         if (session?.user) {
-          console.log('User from session:', session.user.email)
           setUser(session.user)
-        } else {
-          // Fallback to getUser
-          const { data: { user }, error: userError } = await supabase.auth.getUser()
-          console.log('getUser result:', { user: !!user, error: userError?.message })
-          setUser(user)
         }
       } catch (error) {
         console.error('Auth error:', error)
@@ -76,11 +85,6 @@ export function AuthButton() {
       (event, session) => {
         console.log('Auth state changed:', event, session?.user?.email)
         setUser(session?.user ?? null)
-        
-        // Force refresh on sign in
-        if (event === 'SIGNED_IN' && session?.user) {
-          setUser(session.user)
-        }
       }
     )
 
@@ -91,10 +95,12 @@ export function AuthButton() {
 
   const handleSignIn = async () => {
     if (!supabase) return
+    // Use implicit flow - redirect back to current page, Supabase will handle session via URL hash
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: window.location.origin,
+        skipBrowserRedirect: false,
       },
     })
   }
