@@ -20,7 +20,7 @@ export function Footer() {
             </Link>
             <a href="mailto:hex@visiohex.com" className="hover:text-foreground transition-colors flex items-center gap-1">
               <Mail className="w-4 h-4" />
-              Contact
+              hex@visiohex.com
             </a>
           </div>
 
