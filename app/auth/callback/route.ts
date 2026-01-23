@@ -28,9 +28,15 @@ export async function GET(request: Request) {
       }
     )
 
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
     
-    if (!error) {
+    console.log('Exchange code result:', { 
+      hasData: !!data, 
+      hasSession: !!data?.session,
+      error: error?.message 
+    })
+    
+    if (!error && data?.session) {
       // Use 307 redirect to preserve the method and ensure cookies are sent
       const response = NextResponse.redirect(`${origin}${next}`, {
         status: 307,
@@ -54,7 +60,8 @@ export async function GET(request: Request) {
     }
     
     console.error('Auth callback error:', error)
+    return NextResponse.redirect(`${origin}/auth/auth-code-error?error=${encodeURIComponent(error?.message || 'Unknown error')}`)
   }
 
-  return NextResponse.redirect(`${origin}/auth/auth-code-error`)
+  return NextResponse.redirect(`${origin}/auth/auth-code-error?error=no_code`)
 }
