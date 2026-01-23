@@ -12,7 +12,7 @@ const plans = [
     id: "basic",
     name: "Basic",
     description: "Perfect for individuals and casual users",
-    price: { monthly: 1, yearly: 0.8 },
+    price: { monthly: 9, yearly: 7.2 },
     currency: "USD",
     icon: Sparkles,
     features: [
@@ -35,7 +35,7 @@ const plans = [
     id: "pro",
     name: "Pro",
     description: "For professional creators and teams",
-    price: { monthly: 2, yearly: 1.6 },
+    price: { monthly: 19, yearly: 15.2 },
     currency: "USD",
     icon: Zap,
     features: [
@@ -59,7 +59,7 @@ const plans = [
     id: "max",
     name: "Max",
     description: "For enterprises and professional studios",
-    price: { monthly: 3, yearly: 2.4 },
+    price: { monthly: 39, yearly: 31.2 },
     currency: "USD",
     icon: Crown,
     features: [

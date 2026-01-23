@@ -25,12 +25,6 @@ export function Header() {
             Showcase
           </a>
           <a
-            href="#reviews"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Reviews
-          </a>
-          <a
             href="#faq"
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
