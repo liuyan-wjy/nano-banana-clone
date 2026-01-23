@@ -46,20 +46,21 @@ export function AuthButton() {
     // Get initial session
     const getUser = async () => {
       try {
+        // Debug: Log all cookies visible to JavaScript
+        console.log('All cookies:', document.cookie)
+        console.log('Cookies with sb-:', document.cookie.split(';').filter(c => c.includes('sb-')))
+        
         // First try to get session (includes token refresh)
         const { data: { session }, error: sessionError } = await supabase.auth.getSession()
-        if (sessionError) {
-          console.error('Session error:', sessionError)
-        }
+        console.log('getSession result:', { session: !!session, error: sessionError?.message })
         
         if (session?.user) {
+          console.log('User from session:', session.user.email)
           setUser(session.user)
         } else {
           // Fallback to getUser
           const { data: { user }, error: userError } = await supabase.auth.getUser()
-          if (userError) {
-            console.error('Get user error:', userError)
-          }
+          console.log('getUser result:', { user: !!user, error: userError?.message })
           setUser(user)
         }
       } catch (error) {
