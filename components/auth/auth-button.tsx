@@ -45,16 +45,41 @@ export function AuthButton() {
 
     // Get initial session
     const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
-      setLoading(false)
+      try {
+        // First try to get session (includes token refresh)
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+        if (sessionError) {
+          console.error('Session error:', sessionError)
+        }
+        
+        if (session?.user) {
+          setUser(session.user)
+        } else {
+          // Fallback to getUser
+          const { data: { user }, error: userError } = await supabase.auth.getUser()
+          if (userError) {
+            console.error('Get user error:', userError)
+          }
+          setUser(user)
+        }
+      } catch (error) {
+        console.error('Auth error:', error)
+      } finally {
+        setLoading(false)
+      }
     }
     getUser()
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      (event, session) => {
+        console.log('Auth state changed:', event, session?.user?.email)
         setUser(session?.user ?? null)
+        
+        // Force refresh on sign in
+        if (event === 'SIGNED_IN' && session?.user) {
+          setUser(session.user)
+        }
       }
     )
 
