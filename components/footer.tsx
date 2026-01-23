@@ -28,10 +28,13 @@ export function Footer() {
         </div>
         
         {/* AI Disclosure */}
-        <div className="mt-8 pt-6 border-t border-border/50 text-center">
+        <div className="mt-8 pt-6 border-t border-border/50 text-center space-y-2">
           <p className="text-xs text-muted-foreground">
             🤖 Nano Banana uses AI technology (Google Gemini) to process and generate images. 
             Results may vary and AI-generated content should be reviewed before use.
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Nano Banana is an independent service and is not affiliated with, endorsed by, or sponsored by Google LLC or any of its subsidiaries.
           </p>
         </div>
       </div>
