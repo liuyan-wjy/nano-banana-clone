@@ -10,6 +10,9 @@ export async function GET(request: Request) {
   if (code) {
     const cookieStore = await cookies()
     
+    // Track cookies that need to be set on the response
+    const cookiesToSet: { name: string; value: string; options: CookieOptions }[] = []
+    
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -19,10 +22,22 @@ export async function GET(request: Request) {
             return cookieStore.get(name)?.value
           },
           set(name: string, value: string, options: CookieOptions) {
-            cookieStore.set({ name, value, ...options })
+            // Track the cookie for later
+            cookiesToSet.push({ name, value, options })
+            // Also set on cookieStore for server-side
+            try {
+              cookieStore.set({ name, value, ...options })
+            } catch (e) {
+              // Ignore errors from cookieStore.set in route handlers
+            }
           },
           remove(name: string, options: CookieOptions) {
-            cookieStore.delete({ name, ...options })
+            cookiesToSet.push({ name, value: '', options: { ...options, maxAge: 0 } })
+            try {
+              cookieStore.delete({ name, ...options })
+            } catch (e) {
+              // Ignore errors
+            }
           },
         },
       }
@@ -33,28 +48,26 @@ export async function GET(request: Request) {
     console.log('Exchange code result:', { 
       hasData: !!data, 
       hasSession: !!data?.session,
+      cookiesToSet: cookiesToSet.length,
       error: error?.message 
     })
     
     if (!error && data?.session) {
-      // Use 307 redirect to preserve the method and ensure cookies are sent
-      const response = NextResponse.redirect(`${origin}${next}`, {
-        status: 307,
-      })
+      // Create redirect response
+      const response = NextResponse.redirect(`${origin}${next}`)
       
-      // Copy all cookies from cookieStore to response
-      const allCookies = cookieStore.getAll()
-      for (const cookie of allCookies) {
-        if (cookie.name.startsWith('sb-')) {
-          response.cookies.set(cookie.name, cookie.value, {
-            path: '/',
-            secure: true,
-            httpOnly: true,
-            sameSite: 'lax',
-            maxAge: 60 * 60 * 24 * 365, // 1 year
-          })
-        }
+      // Apply all tracked cookies to the response
+      for (const { name, value, options } of cookiesToSet) {
+        response.cookies.set(name, value, {
+          path: options.path || '/',
+          secure: options.secure ?? true,
+          httpOnly: options.httpOnly ?? true,
+          sameSite: (options.sameSite as 'lax' | 'strict' | 'none') || 'lax',
+          maxAge: options.maxAge,
+        })
       }
+      
+      console.log('Setting cookies on response:', cookiesToSet.map(c => c.name))
       
       return response
     }
